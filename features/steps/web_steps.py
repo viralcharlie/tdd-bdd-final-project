@@ -161,3 +161,88 @@ def step_impl(context, element_name, text_string):
     )
     element.clear()
     element.send_keys(text_string)
+
+#Scenario the server is Running
+
+#Scenario Read a product
+@when(u'I visit the "Home Page"')
+def step_impl(context):
+    context.browser.get(f'{context.base_url}/')  # Assuming the home page is the base URL
+
+
+@when(u'I set the "Name" to "{name}"')
+def step_impl(context, name):
+    name_field = context.browser.find_element(By.ID, 'name')  # Assuming the ID for the name field
+    name_field.send_keys(name)
+
+
+@when(u'I press the "Search" button')
+def step_impl(context):
+    search_button = context.browser.find_element(By.XPATH, '//button[contains(text(), "Search")]')
+    search_button.click()
+
+
+@then(u'I should see the message "Success"')
+def step_impl(context):
+    message = context.browser.find_element(By.ID, 'message')  # Assuming there's an ID for the message element
+    assert 'Success' in message.text
+
+
+@when(u'I copy the "Id" field')
+def step_impl(context):
+    id_field = context.browser.find_element(By.ID, 'id')  # Assuming the ID of the product field
+    context.copied_id = id_field.get_attribute('value')
+
+
+@when(u'I press the "Clear" button')
+def step_impl(context):
+    clear_button = context.browser.find_element(By.XPATH, '//button[contains(text(), "Clear")]')
+    clear_button.click()
+
+
+@when(u'I paste the "Id" field')
+def step_impl(context):
+    id_field = context.browser.find_element(By.ID, 'id')  # Assuming an ID field exists to paste the ID
+    id_field.send_keys(context.copied_id)
+
+
+@when(u'I press the "Retrieve" button')
+def step_impl(context):
+    retrieve_button = context.browser.find_element(By.XPATH, '//button[contains(text(), "Retrieve")]')
+    retrieve_button.click()
+
+
+@then(u'I should see the message "Success"')
+def step_impl(context):
+    message = context.browser.find_element(By.ID, 'message')  # Assuming an element shows the success message
+    assert 'Success' in message.text
+
+
+@then(u'I should see "{name}" in the "Name" field')
+def step_impl(context, name):
+    name_field = context.browser.find_element(By.ID, 'name')  # Assuming the Name field has an ID
+    assert name in name_field.get_attribute('value')
+
+
+@then(u'I should see "{description}" in the "Description" field')
+def step_impl(context, description):
+    description_field = context.browser.find_element(By.ID, 'description')  # Assuming the Description field has an ID
+    assert description in description_field.get_attribute('value')
+
+
+@then(u'I should see "{available}" in the "Available" dropdown')
+def step_impl(context, available):
+    available_dropdown = context.browser.find_element(By.ID, 'available')  # Assuming the Available dropdown has an ID
+    assert available in available_dropdown.text
+
+
+@then(u'I should see "{category}" in the "Category" dropdown')
+def step_impl(context, category):
+    category_dropdown = context.browser.find_element(By.ID, 'category')  # Assuming the Category dropdown has an ID
+    assert category in category_dropdown.text
+
+
+@then(u'I should see "{price}" in the "Price" field')
+def step_impl(context, price):
+    price_field = context.browser.find_element(By.ID, 'price')  # Assuming the Price field has an ID
+    assert price in price_field.get_attribute('value')
